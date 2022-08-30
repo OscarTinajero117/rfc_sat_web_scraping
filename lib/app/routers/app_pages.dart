@@ -2,6 +2,8 @@
 
 import 'package:get/get.dart';
 
+import '../modules/about/about_bindings.dart';
+import '../modules/about/about_page.dart';
 import '../modules/datos_fiscales/datos_fiscales_bindings.dart';
 import '../modules/datos_fiscales/datos_fiscales_page.dart';
 import '../modules/home/home_bindings.dart';
@@ -19,6 +21,11 @@ class AppPages {
       name: Routes.DATOS_FISCALES,
       page: () => DatosFiscalesPage(),
       binding: DatosFiscalesBinding(),
+    ),
+    GetPage(
+      name: Routes.ABOUT,
+      page: () => AboutPage(),
+      binding: AboutBinding(),
     ),
   ];
 }

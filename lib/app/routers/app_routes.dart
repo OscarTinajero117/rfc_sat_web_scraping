@@ -3,4 +3,5 @@
 class Routes {
   static const HOME = "/home";
   static const DATOS_FISCALES = '/datos_fiscales';
+  static const ABOUT = '/about';
 }
