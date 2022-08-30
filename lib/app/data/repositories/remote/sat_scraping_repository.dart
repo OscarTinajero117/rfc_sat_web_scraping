@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:rfc_sat_web_scraping/app/data/providers/remote/sat_scraping_provider.dart';
+
+import '../../providers/remote/sat_scraping_provider.dart';
 
 class SatScrapingRepository {
   final SatScrapingProvider _satScrapingProvider =
