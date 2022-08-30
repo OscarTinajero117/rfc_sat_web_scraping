@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rfc_sat_web_scraping/app/data/models/caracteristicas_fiscales.dart';
-import 'package:rfc_sat_web_scraping/app/data/models/p_moral_model.dart';
-import 'package:rfc_sat_web_scraping/app/data/models/ubicacion_model.dart';
 
+import '../../../data/models/caracteristicas_fiscales.dart';
 import '../../../data/models/p_fisica_model.dart';
+import '../../../data/models/p_moral_model.dart';
+import '../../../data/models/ubicacion_model.dart';
 import 'table_info_sat.dart';
 
 class InfoSat extends StatelessWidget {
@@ -150,6 +150,10 @@ class InfoSat extends StatelessWidget {
             tableRowInformation(
               title: "Régimen:",
               information: caractFis.regimen,
+            ),
+            tableRowInformation(
+              title: "Código del Régimen:",
+              information: caractFis.codeRegimen.toString(),
             ),
             tableRowInformation(
               title: "Fecha de alta:",
