@@ -19,21 +19,27 @@ class HomePage extends GetView<HomeController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Center(
-                child: Text(
-                  'Escanea el código QR\nque viene en la constancia\nde situación fiscal',
-                  textAlign: TextAlign.center,
-                ),
+              Obx(
+                () => controller.loading
+                    ? const SizedBox()
+                    : const Center(
+                        child: Text(
+                          'Escanea el código QR\nque viene en la constancia\nde situación fiscal',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
               ),
-              Obx(() => controller.loading
-                  ? const CircularProgressIndicator.adaptive()
-                  : RoundedButton(
-                      text: 'Escanear QR',
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        controller.scanQR();
-                      },
-                    )),
+              Obx(
+                () => controller.loading
+                    ? const CircularProgressIndicator.adaptive()
+                    : RoundedButton(
+                        text: 'Escanear QR',
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          controller.scanQR();
+                        },
+                      ),
+              ),
             ],
           ),
         ),
