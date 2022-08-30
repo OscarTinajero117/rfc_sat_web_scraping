@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_final_fields
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:rfc_sat_web_scraping/app/data/models/caracteristicas_fiscales.dart';
-import 'package:rfc_sat_web_scraping/app/data/models/p_fisica_model.dart';
-import 'package:rfc_sat_web_scraping/app/data/models/p_moral_model.dart';
-import 'package:rfc_sat_web_scraping/app/data/models/ubicacion_model.dart';
+import 'package:share_plus/share_plus.dart';
+
+import '../../data/models/caracteristicas_fiscales.dart';
+import '../../data/models/p_fisica_model.dart';
+import '../../data/models/p_moral_model.dart';
+import '../../data/models/ubicacion_model.dart';
 
 class DatosFiscalesController extends GetxController {
   //*Models
@@ -45,7 +48,7 @@ class DatosFiscalesController extends GetxController {
     _loading.value = false;
   }
 
-  void _asign(int i, List<String> items) {
+  void _asign(int i, List<String> items) async {
     switch (i) {
       case 0:
         if (_persona.value) {
@@ -85,12 +88,101 @@ class DatosFiscalesController extends GetxController {
         );
         break;
       case 2:
+        final int code = await compute<String, int>(_getRegimenCode, items[0]);
         _caractFiscales.value = CaracteristicasFiscales(
           regimen: items[0],
           fechaAlta: items[1],
+          codeRegimen: code,
         );
         break;
     }
+  }
+
+  void onShare() {
+    if (_persona.value) {
+      //física
+      Share.share(''
+          'RFC: \t\t ${_rfc.value}\n\n'
+          'Nombre: \t\t${_pFisica.value.nombre} ${_pFisica.value.apellidoPaterno} ${_pFisica.value.apellidoMaterno}\n\n'
+          'Código Postal: \t\t${_ubicacion.value.cp}\n\n'
+          'Régimen Fiscal: \t\t${_caractFiscales.value.regimen}\n\n'
+          'Código de Régimen: \t\t ${_caractFiscales.value.codeRegimen}\n'
+          '');
+    } else {
+      //moral
+      Share.share(''
+          'RFC: \t\t ${_rfc.value}\n\n'
+          'Razón Social: \t\t${_pMoral.value.razonSocial}\n\n'
+          'Código Postal: \t\t${_ubicacion.value.cp}\n\n'
+          'Régimen Fiscal: \t\t${_caractFiscales.value.regimen}\n\n'
+          'Código de Régimen: \t\t ${_caractFiscales.value.codeRegimen}\n'
+          '');
+    }
+  }
+
+  static Future<int> _getRegimenCode(String regimen) async {
+    if (regimen
+        .toUpperCase()
+        .contains('General de Ley Personas Morales'.toUpperCase())) {
+      return 601;
+    } else if (regimen
+        .toUpperCase()
+        .contains('Personas Morales con Fines no Lucrativos'.toUpperCase())) {
+      return 603;
+    } else if (regimen.toUpperCase().contains(
+        'Sueldos y Salarios e Ingresos Asimilados a Salarios'.toUpperCase())) {
+      return 605;
+    } else if (regimen.toUpperCase().contains('Arrendamiento'.toUpperCase())) {
+      return 606;
+    } else if (regimen.toUpperCase().contains(
+        'Régimen de Enajenación o Adquisición de Bienes'.toUpperCase())) {
+      return 607;
+    } else if (regimen.toUpperCase().contains('Demás ingresos'.toUpperCase())) {
+      return 608;
+    } else if (regimen.toUpperCase().contains('Consolidación'.toUpperCase())) {
+      return 609;
+    } else if (regimen.toUpperCase().contains(
+        'Ingresos por Dividendos (socios y accionistas)'.toUpperCase())) {
+      return 611;
+    } else if (regimen.toUpperCase().contains(
+        'Personas Físicas con Actividades Empresariales y Profesionales'
+            .toUpperCase())) {
+      return 612;
+    } else if (regimen
+        .toUpperCase()
+        .contains('Ingresos por intereses'.toUpperCase())) {
+      return 614;
+    } else if (regimen.toUpperCase().contains(
+        'Régimen de los ingresos por obtención de premios'.toUpperCase())) {
+      return 615;
+    } else if (regimen
+        .toUpperCase()
+        .contains('Sin obligaciones fiscales'.toUpperCase())) {
+      return 616;
+    } else if (regimen.toUpperCase().contains(
+        'Sociedades Cooperativas de Producción que optan por Diferir sus Ingresos'
+            .toUpperCase())) {
+      return 620;
+    } else if (regimen
+        .toUpperCase()
+        .contains('Incorporación Fiscal'.toUpperCase())) {
+      return 621;
+    } else if (regimen
+        .toUpperCase()
+        .contains('Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras'.toUpperCase())) {
+      return 622;
+    } else if (regimen.toUpperCase().contains('Opcional para Grupos de Sociedades'.toUpperCase())) {
+      return 623;
+    } else if (regimen.toUpperCase().contains('Coordinados'.toUpperCase())) {
+      return 624;
+    } else if (regimen.toUpperCase().contains('Hidrocarburos'.toUpperCase())) {
+      return 628;
+    } else if (regimen.toUpperCase().contains('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales'.toUpperCase())) {
+      return 629;
+    } else if (regimen.toUpperCase().contains('Enajenación de acciones en bolsa de valores'.toUpperCase())) {
+      return 630;
+    }
+    return 0;
   }
 
   @override

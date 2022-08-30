@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rfc_sat_web_scraping/app/global_widgets/load_splash.dart';
-import 'package:rfc_sat_web_scraping/app/modules/datos_fiscales/local_widgets/info_sat.dart';
 
+import '../../global_widgets/load_splash.dart';
 import 'datos_fiscales_controller.dart';
+import 'local_widgets/info_sat.dart';
 
 class DatosFiscalesPage extends GetView<DatosFiscalesController> {
   const DatosFiscalesPage({super.key});
@@ -14,10 +14,17 @@ class DatosFiscalesPage extends GetView<DatosFiscalesController> {
         ? const LoadSplash(mensaje: 'Cargando Datos')
         : Scaffold(
             appBar: AppBar(
-                title: Center(
-              child:
-                  Obx(() => Text('Datos Fiscales del RFC: ${controller.rfc}')),
-            )),
+              title: Center(
+                child: Obx(
+                    () => Text('Datos Fiscales del RFC: ${controller.rfc}')),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: controller.onShare,
+                  icon: const Icon(Icons.share),
+                )
+              ],
+            ),
             body: SingleChildScrollView(
               child: InfoSat(
                 pfisica: controller.pFisica,
