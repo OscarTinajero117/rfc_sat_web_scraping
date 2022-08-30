@@ -14,4 +14,3 @@ La aplicación toma el URL que está en el código QR, navega y extrae las tabla
 - La técnica de Web Scraping con Dart está basada en [este vídeo](https://youtu.be/fwQ4ZQQ06Yc)
 - El uso de hilos está basado en [este vídeo](https://youtu.be/ump3Yl4TDJw)
 - El manejo de GetX está basado en [este curso](https://meedu.app/curso/flutter-navegacion-y-gestion-de-estados-con-getx)
-

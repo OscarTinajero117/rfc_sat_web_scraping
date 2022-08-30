@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rfc_sat_web_scraping">
+    package="com.nerus.consulta_rfc">
     <!-- Ineternet permission -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Camera permission -->
     <uses-permission android:name="android.permission.CAMERA" />
    <application
-        android:label="rfc_sat_web_scraping"
+        android:label="consulta_rfc"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

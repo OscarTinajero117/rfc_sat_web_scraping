@@ -1,4 +1,4 @@
-package com.example.rfc_sat_web_scraping
+package com.nerus.consulta_rfc
 
 import io.flutter.embedding.android.FlutterActivity
 
