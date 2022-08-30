@@ -39,11 +39,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   qrscan: ^0.3.3
-  # intl: ^0.17.0
+  intl: ^0.17.0
   http: ^0.13.5
   permission_handler: ^10.0.0
   beautiful_soup_dart: ^0.3.0
   share_plus: ^4.0.10+1
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:
@@ -68,9 +69,11 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/arquos.png
+    - assets/icons/fb_icon_325x325.png
+    - assets/icons/twitter_logo.png
+    - assets/icons/arquos_i.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
