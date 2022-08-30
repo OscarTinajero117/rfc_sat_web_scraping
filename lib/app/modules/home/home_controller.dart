@@ -18,11 +18,15 @@ class HomeController extends GetxController {
   RxBool _loading = false.obs;
   bool get loading => _loading.value;
 
+  void toAbout() {
+    Get.toNamed(Routes.ABOUT);
+  }
+
   Future<void> scanQR() async {
-    _loading.value = true;
     final bool cameraPermission = await getPermission(Permission.camera);
     if (cameraPermission) {
       final String? cameraScanResult = await scanner.scan();
+      _loading.value = true;
       if (cameraScanResult != null) {
         if (cameraScanResult.startsWith('https://siat.sat.gob.mx')) {
           final listSplit = cameraScanResult.split('_');
@@ -52,6 +56,8 @@ class HomeController extends GetxController {
             error: "Solo se permiten QR generados por el SAT",
           );
         }
+      } else {
+        _loading.value = false;
       }
     } else {
       SnackBarElements().snackBarWarning(

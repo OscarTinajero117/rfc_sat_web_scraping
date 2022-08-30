@@ -11,9 +11,21 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Center(
-        child: Text('RFC por QR'),
-      )),
+        title: const Center(
+          child: Text(
+            'RFC por QR',
+            textAlign: TextAlign.center,
+          ),
+        ),
+        leading: const SizedBox(width: 5.0),
+        actions: [
+          IconButton(
+            onPressed: controller.toAbout,
+            icon: const Icon(Icons.info),
+          ),
+          const SizedBox(width: 5.0),
+        ],
+      ),
       body: Container(
         alignment: Alignment.center,
         child: SingleChildScrollView(
