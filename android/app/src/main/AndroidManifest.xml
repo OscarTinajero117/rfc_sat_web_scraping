@@ -5,7 +5,7 @@
     <!-- Camera permission -->
     <uses-permission android:name="android.permission.CAMERA" />
    <application
-        android:label="consulta_rfc"
+        android:label="Consulta de RFC"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
