@@ -1,7 +1,7 @@
-import 'package:consulta_rfc/app/global_widgets/social_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../global_widgets/social_icon.dart';
 import 'about_controller.dart';
 
 class AboutPage extends GetView<AboutController> {
