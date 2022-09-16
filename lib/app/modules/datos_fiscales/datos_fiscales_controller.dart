@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, invalid_use_of_protected_member, avoid_print
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -20,9 +19,12 @@ class DatosFiscalesController extends GetxController {
   Rx<Ubicacion> _ubicacion = Ubicacion.getDefault().obs;
   Ubicacion get ubicacion => _ubicacion.value;
 
-  Rx<CaracteristicasFiscales> _caractFiscales =
-      CaracteristicasFiscales.getDefault().obs;
-  CaracteristicasFiscales get caractFiscales => _caractFiscales.value;
+  RxList<CaracteristicasFiscales> _listCaractFiscales =
+      <CaracteristicasFiscales>[].obs;
+  List<CaracteristicasFiscales> get listCaractFiscales =>
+      _listCaractFiscales.value;
+
+  int _globalIndex = 0;
 
   RxBool _loading = true.obs;
   bool get loading => _loading.value;
@@ -33,23 +35,28 @@ class DatosFiscalesController extends GetxController {
   RxString _rfc = ''.obs;
   String get rfc => _rfc.value;
 
-  void _init() {
+  RxString _idCif = ''.obs;
+  String get idCif => _idCif.value;
+
+  void _init() async {
+    _globalIndex = 0;
     _loading.value = true;
     _persona.value = Get.arguments[0];
     final List<List<String>> elements = Get.arguments[1];
     _rfc.value = Get.arguments[2];
+    _idCif.value = Get.arguments[3];
     for (int i = 0; i < elements.length; i++) {
       final items = elements[i];
       for (int j = 0; j < items.length; j++) {
-        _asign(i, items);
+        await _asign(i, items);
       }
     }
 
     _loading.value = false;
   }
 
-  void _asign(int i, List<String> items) async {
-    switch (i) {
+  Future<void> _asign(int index, List<String> items) async {
+    switch (index) {
       case 0:
         if (_persona.value) {
           _pFisica.value = PFisica(
@@ -88,34 +95,42 @@ class DatosFiscalesController extends GetxController {
         );
         break;
       case 2:
-        final int code = await compute<String, int>(_getRegimenCode, items[0]);
-        _caractFiscales.value = CaracteristicasFiscales(
-          regimen: items[0],
-          fechaAlta: items[1],
-          codeRegimen: code,
-        );
+        while (_globalIndex < items.length) {
+          final int code = await _getRegimenCode(items[_globalIndex]);
+          _listCaractFiscales.add(CaracteristicasFiscales(
+            regimen: items[_globalIndex],
+            fechaAlta: items[_globalIndex + 1],
+            codeRegimen: code,
+          ));
+          _globalIndex += 2;
+        }
         break;
     }
   }
 
   void onShare() {
+    String regimenesComplete = '';
+    for (CaracteristicasFiscales row in listCaractFiscales) {
+      regimenesComplete +=
+          'Régimen Fiscal: \t\t${row.codeRegimen} - ${row.regimen}\n\n';
+    }
     if (_persona.value) {
       //física
       Share.share(''
           'RFC: \t\t ${_rfc.value}\n\n'
+          'ID CIF: \t\t ${_idCif.value}\n\n'
           'Nombre: \t\t${_pFisica.value.nombre} ${_pFisica.value.apellidoPaterno} ${_pFisica.value.apellidoMaterno}\n\n'
           'Código Postal: \t\t${_ubicacion.value.cp}\n\n'
-          'Régimen Fiscal: \t\t${_caractFiscales.value.regimen}\n\n'
-          'Código de Régimen: \t\t ${_caractFiscales.value.codeRegimen}\n'
+          '$regimenesComplete'
           '');
     } else {
       //moral
       Share.share(''
           'RFC: \t\t ${_rfc.value}\n\n'
+          'ID CIF: \t\t ${_idCif.value}\n\n'
           'Razón Social: \t\t${_pMoral.value.razonSocial}\n\n'
           'Código Postal: \t\t${_ubicacion.value.cp}\n\n'
-          'Régimen Fiscal: \t\t${_caractFiscales.value.regimen}\n\n'
-          'Código de Régimen: \t\t ${_caractFiscales.value.codeRegimen}\n'
+          '$regimenesComplete'
           '');
     }
   }
@@ -142,6 +157,10 @@ class DatosFiscalesController extends GetxController {
     } else if (regimen.toUpperCase().contains('Consolidación'.toUpperCase())) {
       return 609;
     } else if (regimen.toUpperCase().contains(
+        'Residentes en el Extranjero sin Establecimiento Permanente en México'
+            .toUpperCase())) {
+      return 610;
+    } else if (regimen.toUpperCase().contains(
         'Ingresos por Dividendos (socios y accionistas)'.toUpperCase())) {
       return 611;
     } else if (regimen.toUpperCase().contains(
@@ -160,21 +179,20 @@ class DatosFiscalesController extends GetxController {
         .contains('Sin obligaciones fiscales'.toUpperCase())) {
       return 616;
     } else if (regimen.toUpperCase().contains(
-        'Sociedades Cooperativas de Producción que optan por Diferir sus Ingresos'
-            .toUpperCase())) {
+        'Sociedades Cooperativas de Producción que optan por Diferir sus Ingresos'.toUpperCase())) {
       return 620;
-    } else if (regimen
-        .toUpperCase()
-        .contains('Incorporación Fiscal'.toUpperCase())) {
+    } else if (regimen.toUpperCase().contains('Incorporación Fiscal'.toUpperCase())) {
       return 621;
-    } else if (regimen
-        .toUpperCase()
-        .contains('Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras'.toUpperCase())) {
+    } else if (regimen.toUpperCase().contains('Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras'.toUpperCase())) {
       return 622;
     } else if (regimen.toUpperCase().contains('Opcional para Grupos de Sociedades'.toUpperCase())) {
       return 623;
     } else if (regimen.toUpperCase().contains('Coordinados'.toUpperCase())) {
       return 624;
+    } else if (regimen.toUpperCase().contains('Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas'.toUpperCase())) {
+      return 625;
+    } else if (regimen.toUpperCase().contains('Régimen Simplificado de Confianza'.toUpperCase())) {
+      return 626;
     } else if (regimen.toUpperCase().contains('Hidrocarburos'.toUpperCase())) {
       return 628;
     } else if (regimen.toUpperCase().contains('De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales'.toUpperCase())) {
