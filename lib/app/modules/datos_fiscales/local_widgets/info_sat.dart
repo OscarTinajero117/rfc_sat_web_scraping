@@ -12,18 +12,37 @@ class InfoSat extends StatelessWidget {
   final PMoral pMoral;
   final Ubicacion ubicacion;
   final bool persona;
-  final CaracteristicasFiscales caractFis;
+  final List<CaracteristicasFiscales> listCaractFis;
+  final String idCif;
   const InfoSat({
     super.key,
     required this.pfisica,
     required this.pMoral,
     required this.ubicacion,
-    required this.caractFis,
+    required this.listCaractFis,
     required this.persona,
+    required this.idCif,
   });
 
   @override
   Widget build(BuildContext context) {
+    final rows = <TableRow>[];
+    for (CaracteristicasFiscales row in listCaractFis) {
+      rows.addAll([
+        tableRowInformation(
+          title: "Régimen:",
+          information: row.regimen,
+        ),
+        tableRowInformation(
+          title: "Código del Régimen:",
+          information: row.codeRegimen.toString(),
+        ),
+        tableRowInformation(
+          title: "Fecha de alta:",
+          information: row.fechaAlta,
+        ),
+      ]);
+    }
     return Column(
       children: [
         persona
@@ -146,20 +165,20 @@ class InfoSat extends StatelessWidget {
         //Caracteristicas
         TableInfoSat(
           tableTitle: 'Características fiscales (vigente)',
-          children: [
-            tableRowInformation(
-              title: "Régimen:",
-              information: caractFis.regimen,
-            ),
-            tableRowInformation(
-              title: "Código del Régimen:",
-              information: caractFis.codeRegimen.toString(),
-            ),
-            tableRowInformation(
-              title: "Fecha de alta:",
-              information: caractFis.fechaAlta,
-            ),
-          ],
+          children: rows,
+        ),
+        const SizedBox(height: 10.0),
+        Text(
+          'ID CIF: $idCif',
+          style: TextStyle(
+            fontSize: Get.width < 360
+                ? 14
+                : Get.width < 720
+                    ? 18
+                    : 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
       ],
     );
