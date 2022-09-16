@@ -30,8 +30,9 @@ class DatosFiscalesPage extends GetView<DatosFiscalesController> {
                 pfisica: controller.pFisica,
                 pMoral: controller.pMoral,
                 ubicacion: controller.ubicacion,
-                caractFis: controller.caractFiscales,
+                listCaractFis: controller.listCaractFiscales,
                 persona: controller.persona,
+                idCif: controller.idCif,
               ),
             ),
           ));
