@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,17 @@ import 'app/modules/home/home_page.dart';
 import 'app/routers/app_pages.dart';
 
 void main() {
+  //<--- Evitar la rotación de la aplicación
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  //--->
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    // overlays: [SystemUiOverlay.bottom],//solo deja la parte de abajo
+    // overlays: [SystemUiOverlay.top],//solo deja la parte de arriba
+    overlays: [], //quita ambas partes
+  );
   runApp(const MyApp());
 }
 
