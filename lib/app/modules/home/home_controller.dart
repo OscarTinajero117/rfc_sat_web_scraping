@@ -29,8 +29,13 @@ class HomeController extends GetxController {
       _loading.value = true;
       if (cameraScanResult != null) {
         if (cameraScanResult.startsWith('https://siat.sat.gob.mx')) {
+          //*RFC
           final listSplit = cameraScanResult.split('_');
           final String rfc = listSplit[1];
+          //*IDCIF
+          final listSplit2 = listSplit[0].split('=');
+          final String idCif = listSplit2[listSplit2.length - 1];
+
           final List<List<String>> elements =
               await compute<ScrapingData, List<List<String>>>(
                   getScrapingData,
@@ -48,7 +53,7 @@ class HomeController extends GetxController {
           }
           Get.toNamed(
             Routes.DATOS_FISCALES,
-            arguments: [persona, elements, rfc],
+            arguments: [persona, elements, rfc, idCif],
           );
           // _loading.value = false;
         } else {
