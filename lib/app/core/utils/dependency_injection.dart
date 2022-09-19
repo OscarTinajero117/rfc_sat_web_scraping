@@ -1,4 +1,6 @@
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
+
+import '../../modules/home/home_controller.dart';
 
 class DependencyInjection {
   static void init() {
@@ -13,5 +15,11 @@ class DependencyInjection {
     //   () => DireccionesRepository(),
     //   fenix: true,
     // );
+
+    ///Controllers
+    Get.lazyPut<HomeController>(
+      () => HomeController(),
+      fenix: true,
+    );
   }
 }

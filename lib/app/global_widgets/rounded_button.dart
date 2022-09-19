@@ -9,7 +9,7 @@ class RoundedButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.color = const Color.fromARGB(255, 100, 181, 246),
+    this.color = Colors.blue,
     this.textColor = Colors.white,
   });
 

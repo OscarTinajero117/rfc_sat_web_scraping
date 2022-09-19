@@ -42,9 +42,7 @@ class HomePage extends GetView<HomeController> {
                       ),
                       RoundedButton(
                         text: 'Escanear QR',
-                        onPressed: () {
-                          controller.scanQR();
-                        },
+                        onPressed: controller.scanQR,
                       ),
                     ],
                   ),

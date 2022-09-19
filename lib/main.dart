@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
+import 'app/core/utils/dependency_injection.dart';
 import 'app/modules/home/home_bindings.dart';
 import 'app/modules/home/home_page.dart';
 import 'app/routers/app_pages.dart';
@@ -19,6 +20,7 @@ void main() {
     // overlays: [SystemUiOverlay.top],//solo deja la parte de arriba
     overlays: [], //quita ambas partes
   );
+  DependencyInjection.init();
   runApp(const MyApp());
 }
 
