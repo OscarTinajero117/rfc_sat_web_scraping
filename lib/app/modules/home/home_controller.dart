@@ -22,7 +22,7 @@ class HomeController extends GetxController {
     Get.toNamed(Routes.ABOUT);
   }
 
-  Future<void> scanQR() async {
+  void scanQR() async {
     final bool cameraPermission = await getPermission(Permission.camera);
     if (cameraPermission) {
       final String? cameraScanResult = await scanner.scan();
@@ -55,21 +55,19 @@ class HomeController extends GetxController {
             Routes.DATOS_FISCALES,
             arguments: [persona, elements, rfc, idCif],
           );
-          _loading.value = false;
+          // _loading.value = false;
         } else {
           SnackBarElements().snackBarError(
             error: "Solo se permiten QR generados por el SAT",
           );
-          _loading.value = false;
+          // _loading.value = false;
         }
-      } else {
-        _loading.value = false;
       }
     } else {
       SnackBarElements().snackBarWarning(
         warning: "Permiso de cámara no concedido",
       );
-      _loading.value = false;
+      // _loading.value = false;
     }
     _loading.value = false;
   }
