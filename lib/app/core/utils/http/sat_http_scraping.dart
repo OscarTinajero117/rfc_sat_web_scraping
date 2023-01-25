@@ -9,6 +9,7 @@ class SatHttpScraping {
       if (response.statusCode == 200) return response.body;
     } catch (e) {
       log('SatHttpScraping $e');
+      rethrow;
     }
     return null;
   }
