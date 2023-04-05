@@ -31,10 +31,10 @@ class HomeController extends GetxController {
         if (cameraScanResult.startsWith('https://siat.sat.gob.mx')) {
           //*RFC
           final listSplit = cameraScanResult.split('_');
-          final String rfc = listSplit[1];
+          final String rfc = listSplit.last; //last
           //*IDCIF
           final listSplit2 = listSplit[0].split('=');
-          final String idCif = listSplit2[listSplit2.length - 1];
+          final String idCif = listSplit2.last; //last
 
           final List<List<String>> elements =
               await compute<ScrapingData, List<List<String>>>(
